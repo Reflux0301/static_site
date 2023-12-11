@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anonymous Browser Sessions</title>
+    <style>
+        table, th, td {
+          border: 1px solid black;
+        }
+
+        body {
+            background-color: black;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <center>
+        <h1>Anonymous Browser Sessions</h1>
+        Problem: Modern browsing has issues with fingerprinting and lack of plausible deniability. In countries that aren't free, having the Tor Browser loaded up on your phone or TAILS on your laptop might incur some unneeded eyes.
+        <br>
+        <br>
+        Solution: Kasm Containers and Anonymous Browsing Sessions. With a click of a button, a Docker container generates a web browser that you can access at your fingertips to do what you need to do and goes away in 15 minutes.
+        <br>
+        <br>
+        Rules: Each container lasts 10 minutes. All data contained is wiped. All traffic within the containers are routed through ProtonVPN. HTTPS is enabled.
+        <br>
+        <br>
+        <button type="button" id="get_browser_chromium">Request a Chromium browser.</button>
+        <button type="button" id="get_browser_firefox">Request a Mullvad browser.</button>
+        <button type="button" id="get_browser_opera">Request an Opera browser.</button>
+        <br>
+        <p id="available"></p>
+        <p id="username"></p>
+        <p id="password"></p>
+    </center>
+    <script>
+        function getChromium() {
+            fetch("https://api.youhaveno.dad/create/chromium")
+            .then((response) => response.json())
+            .then((json) => {  
+                    if (json.success == undefined) {
+                        document.getElementById("available").innerHTML = "Currently no available containers for you. Check back later.";
+                    } else {
+                        document.getElementById("available").innerHTML = `Created! Here's your link: <a href="https://${json.success[0][0]}" target="_blank" rel="noopener noreferrer">${json.success[0][0]}</a> or <a href="${json.success[0][1]}">${json.success[0][1]}</a>`;
+                        document.getElementById("username").innerHTML = `Your username is ${json.success[1]}` 
+                        document.getElementById("password").innerHTML = `Your password is ${json.success[2]}`;
+                    }
+                }
+            );
+        }
+
+        function getFirefox() {
+            fetch("https://api.youhaveno.dad/create/firefox")
+            .then((response) => response.json())
+            .then((json) => {  
+                    if (json.success == undefined) {
+                        document.getElementById("available").innerHTML = "Currently no available containers for you. Check back later.";
+                    } else {
+                        document.getElementById("available").innerHTML = `Created! Here's your link: <a href="https://${json.success[0][0]}" target="_blank" rel="noopener noreferrer">${json.success[0][0]}</a>`;
+                        document.getElementById("username").innerHTML = `Your username is ${json.success[1]}` 
+                        document.getElementById("password").innerHTML = `Your password is ${json.success[2]}`;
+                    }
+                }
+            );
+        }
+
+        function getOpera() {
+            fetch("https://api.youhaveno.dad/create/opera")
+            .then((response) => response.json())
+            .then((json) => {  
+                    if (json.success == undefined) {
+                        document.getElementById("available").innerHTML = "Currently no available containers for you. Check back later.";
+                    } else {
+                        document.getElementById("available").innerHTML = `Created! Here's your link: <a href="https://${json.success[0][0]}" target="_blank" rel="noopener noreferrer">${json.success[0][0]}</a>`;
+                        document.getElementById("username").innerHTML = `Your username is ${json.success[1]}` 
+                        document.getElementById("password").innerHTML = `Your password is ${json.success[2]}`;
+                    }
+                }
+            );
+        }
+        
+        let btn = document.getElementById("get_browser_chromium");
+        let btn2 = document.getElementById("get_browser_firefox");
+        let btn3 = document.getElementById("get_browser_opera");
+
+        btn.addEventListener("click", getChromium);
+        btn2.addEventListener("click", getFirefox);
+        btn3.addEventListener("click", getOpera);
+    </script>
+</body>
+</html>
